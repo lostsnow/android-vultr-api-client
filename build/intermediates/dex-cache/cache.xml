@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="E:\cloud\android\Vultr\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c6aef91146f541fcf5bf8b6ca450ce7c17b51012">
+        <dex dex="E:\cloud\android\Vultr\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_b5df901f71d6efb595d517042032e963b110a625\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\cloud\android\Vultr\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0f2991a749154eccf6fd45693bbfdac4e3e6aa45">
+        <dex dex="E:\cloud\android\Vultr\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_33414521ee42efda8203f31552c8241503c8a1d6\classes.dex" />
+    </item>
+
+</items>
