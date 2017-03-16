@@ -12,6 +12,7 @@ import java.util.List;
 public class ServerList {
 
     private ArrayList<Server> serverLists;
+    private String body;
 
     public ServerList() {
 
@@ -24,21 +25,8 @@ public class ServerList {
     }
 
 
-/*    public String[] getStringArray() {
-        ArrayList<String> strServerList = new ArrayList<>();
-
-        for (Server server : serverLists) {
-            String str = "";
-            str += "Server name: " + server.getLabel() + "\n";
-            str += "Main IP: " + server.getMain_ip() + "\n";
-            str += "Pending charge: $" + server.getPending_charges() + "\n";
-            strServerList.add(str);
-        }
-
-        return strServerList.toArray(new String[strServerList.size()]);
-    }*/
-
     public ServerList(String response) {
+        body = response;
         serverLists = new ArrayList<>();
 
         try {
@@ -66,4 +54,7 @@ public class ServerList {
     }
 
 
+    public String getBody() {
+        return body;
+    }
 }

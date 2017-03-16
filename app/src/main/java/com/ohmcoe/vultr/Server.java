@@ -1,5 +1,7 @@
 package com.ohmcoe.vultr;
 
+import android.icu.text.DecimalFormat;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,8 +20,7 @@ public class Server {
     private String current_bandwidth_gb;
     private String allowed_bandwidth_gb;
 
-    public Server()
-    {
+    public Server() {
 
     }
 
@@ -33,6 +34,22 @@ public class Server {
         this.setPending_charges(jObj.getString("pending_charges"));
         this.setCurrent_bandwidth_gb(jObj.getString("current_bandwidth_gb"));
         this.setAllowed_bandwidth_gb(jObj.getString("allowed_bandwidth_gb"));
+    }
+
+    public String getStrPendingCharges() {
+        return "$" + pending_charges;
+    }
+
+    public String getBandwidth() {
+        String bandwidth = "";
+
+        Double currentBandwidth = Double.parseDouble(current_bandwidth_gb);
+        Double allowedBandwidth = Double.parseDouble(allowed_bandwidth_gb);
+
+        DecimalFormat df = new DecimalFormat("0");
+
+        bandwidth += current_bandwidth_gb + " GB of " + allowed_bandwidth_gb + " GB (" + df.format(currentBandwidth / allowedBandwidth * 100) + "%)";
+        return bandwidth;
     }
 
     public String getSUBID() {

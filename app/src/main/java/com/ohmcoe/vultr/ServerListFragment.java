@@ -2,6 +2,7 @@ package com.ohmcoe.vultr;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -65,7 +66,16 @@ public class ServerListFragment extends Fragment{
         txtServerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("Test", parent.getItemAtPosition(position).toString());
+                Server server = (Server)parent.getItemAtPosition(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("API-Key", APIKey);
+                bundle.putString("SUBID", server.getSUBID());
+                Fragment serverFragment = new ServerFragment();
+                serverFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, serverFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }

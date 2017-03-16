@@ -1,28 +1,54 @@
+
 package com.ohmcoe.vultr;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Account {
+
+    @SerializedName("balance")
+    @Expose
     private String balance;
-    private String pending_charges;
-    private String last_payment_date;
-    private String last_payment_amount;
-
-    public Account() {
-
-    }
+    @SerializedName("pending_charges")
+    @Expose
+    private String pendingCharges;
+    @SerializedName("last_payment_date")
+    @Expose
+    private String lastPaymentDate;
+    @SerializedName("last_payment_amount")
+    @Expose
+    private String lastPaymentAmount;
 
     public String getBalance() {
         return balance;
     }
 
-    public String getPending_charges() {
-        return pending_charges;
+    public void setBalance(String balance) {
+        this.balance = balance;
     }
 
-    public String getLast_payment_date() {
-        return last_payment_date;
+    public String getPendingCharges() {
+        return pendingCharges;
     }
 
-    public String getLast_payment_amount() {
-        return last_payment_amount;
+    public void setPendingCharges(String pendingCharges) {
+        this.pendingCharges = pendingCharges;
     }
+
+    public String getLastPaymentDate() {
+        return lastPaymentDate;
+    }
+
+    public void setLastPaymentDate(String lastPaymentDate) {
+        this.lastPaymentDate = lastPaymentDate;
+    }
+
+    public String getLastPaymentAmount() {
+        return lastPaymentAmount;
+    }
+
+    public void setLastPaymentAmount(String lastPaymentAmount) {
+        this.lastPaymentAmount = lastPaymentAmount;
+    }
+
 }

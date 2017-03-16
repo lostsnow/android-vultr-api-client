@@ -72,7 +72,7 @@ public class AccountFragment extends Fragment {
 
 
         double currentBalance = Double.parseDouble(account.getBalance());
-        double pendingCharge = Double.parseDouble(account.getPending_charges());
+        double pendingCharge = Double.parseDouble(account.getPendingCharges());
         double remainBalance = currentBalance + pendingCharge;
 
 
@@ -93,17 +93,9 @@ public class AccountFragment extends Fragment {
     protected void getAccount() {
 
         progressDialog.show();
-        String API_BASE_URL = getResources().getString(R.string.base_uri);
 
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create());
-
-        Retrofit retrofit = builder
-                .client(httpClient.build())
-                .build();
+        RetrofitClient retrofitClient = new RetrofitClient(getString(R.string.base_uri));
+        Retrofit retrofit = retrofitClient.getRetrofit();
 
         VultrClient client = retrofit.create(VultrClient.class);
         Call<Account> call = client.getAccount(this.APIKey);

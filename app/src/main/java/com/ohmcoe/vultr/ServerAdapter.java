@@ -53,7 +53,7 @@ public class ServerAdapter extends ArrayAdapter<Server> {
             if (txtPendingCharges != null)
             {
                 String pendingCharges = "$" + server.getPending_charges();
-                txtPendingCharges.setText(server.getPending_charges());
+                txtPendingCharges.setText(pendingCharges);
             }
 
             if (txtIP != null)

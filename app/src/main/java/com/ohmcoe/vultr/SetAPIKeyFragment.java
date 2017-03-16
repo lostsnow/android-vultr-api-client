@@ -63,6 +63,7 @@ public class SetAPIKeyFragment extends Fragment {
         }
 
         Intent in = new Intent(getContext(), NavigationActivity.class);
+        getActivity().finish();
         startActivity(in);
     }
 }
