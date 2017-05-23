@@ -16,10 +16,37 @@
 #   public *;
 #}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+#-dontwarn retrofit2.**
+#-dontwarn okio.**
+#-keep class retrofit2.** { *; }
+#-keep interface com.squareup.okhttp.** { *; }
+#-keepattributes Signature
+#-keepattributes Exceptions
+#
+#-keepclasseswithmembers class * {
+#    @retrofit2.http.* <methods>;
+#}
+#-keepattributes *Annotation*
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Platform calls Class.forName on types which do not exist on Android to determine platform.
+-dontnote retrofit2.Platform
+# Platform used when running on Java 8 VMs. Will not be used at runtime.
+-dontwarn retrofit2.Platform$Java8
+# Retain generic type information for use by reflection by converters and adapters.
+-keepattributes Signature
+# Retain declared checked exceptions for use by a Proxy instance.
+-keepattributes Exceptions
+
+-keepattributes *Annotation*
+
+-dontwarn okio.**
+
+#-keep class com.ohmcoe.vultr.Account { *; }
+
+#-printmapping build/outputs/mapping/release/mapping.txt
+
+-dontwarn kotlin.**
+
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+}
