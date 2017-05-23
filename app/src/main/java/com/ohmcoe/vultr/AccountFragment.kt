@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
@@ -17,7 +16,7 @@ import android.view.ViewGroup
  * Use the [AccountFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AccountFragment : Fragment() {
+class AccountFragment : android.app.Fragment() {
 
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null

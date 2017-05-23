@@ -17,11 +17,15 @@ import java.io.IOException
 
 class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    val configFile = "config.ohmcoe"
+    object Config{
+        val configFile = "config.ohmcoe"
+    }
+
+     val configFile = "config.ohmcoe"
     private var api_key: String? = null
     private var accountFragment: Fragment? = null
     private var serverFragment: Fragment? = null
-    private var setAPIKeyFragment: Fragment? = null
+    private var setAPIKeyFragment: SetAPIKeyFragment? = null
     private var serverListFragment: Fragment? = null
     var bundle: Bundle? = null
 
@@ -39,10 +43,15 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+
+        checkAPIKeyFile()
     }
 
     fun setBundle() {
         this.bundle!!.putString("API-Key", api_key)
+
+        setAPIKeyFragment = SetAPIKeyFragment()
+        setAPIKeyFragment!!.arguments = bundle
     }
 
     fun checkAPIKeyFile() {
@@ -81,6 +90,10 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             //TODO call account factment
         } else {
             setBundle()
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, setAPIKeyFragment)
+                    .addToBackStack(null)
+                    .commit()
         }
     }
 
@@ -107,7 +120,12 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
 
         if (id == R.id.action_settings) {
-            return true
+            val fragmentManager = fragmentManager
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, setAPIKeyFragment)
+                    .addToBackStack(null)
+                    .commit()
+            return false
         }
 
         return super.onOptionsItemSelected(item)
