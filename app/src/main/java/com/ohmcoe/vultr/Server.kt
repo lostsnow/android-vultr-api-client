@@ -43,7 +43,7 @@ class Server {
             val currentBandwidth = java.lang.Double.parseDouble(current_bandwidth_gb)
             val allowedBandwidth = java.lang.Double.parseDouble(allowed_bandwidth_gb)
 
-            bandwidth += current_bandwidth_gb + " GB of " + allowed_bandwidth_gb + " GB (" + String.format("%d", currentBandwidth / allowedBandwidth * 100) + "%)"
+            bandwidth += current_bandwidth_gb + " GB of " + allowed_bandwidth_gb + " GB (" + String.format("%.0f", currentBandwidth / allowedBandwidth * 100) + "%)"
             return bandwidth
         }
 }

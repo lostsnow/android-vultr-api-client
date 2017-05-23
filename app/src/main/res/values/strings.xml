@@ -41,4 +41,5 @@
     <string name="outbound">Outbound</string>
     <string name="bandwidthHistory">Bandwidth History</string>
     <string name="view">Tab here to view</string>
+    <string name="title_activity_bandwidth_graph">BandwidthGraph</string>
 </resources>
