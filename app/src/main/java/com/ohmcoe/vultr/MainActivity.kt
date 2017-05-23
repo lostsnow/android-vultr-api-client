@@ -17,11 +17,11 @@ import java.io.IOException
 
 class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    object Config{
+    object Config {
         val configFile = "config.ohmcoe"
     }
 
-     val configFile = "config.ohmcoe"
+    val configFile = "config.ohmcoe"
     private var api_key: String? = null
     private var accountFragment: Fragment? = null
     private var serverFragment: Fragment? = null
@@ -54,6 +54,10 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         setAPIKeyFragment!!.arguments = bundle
         accountFragment = AccountFragment()
         accountFragment!!.arguments = bundle
+        serverFragment = ServerFragment()
+        serverFragment!!.arguments = bundle
+        serverListFragment = ServerListFragment()
+        serverListFragment!!.arguments = bundle
     }
 
     fun checkAPIKeyFile() {
@@ -143,6 +147,10 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         if (id == R.id.account) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, accountFragment)
+                    .commit()
+        } else if (id == R.id.server) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, serverListFragment)
                     .commit()
         }
 

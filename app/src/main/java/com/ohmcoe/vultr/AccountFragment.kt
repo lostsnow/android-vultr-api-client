@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -89,7 +88,7 @@ class AccountFragment : Fragment() {
                 } else {
                     progressDialog!!.dismiss()
                     val text = "Loading Failure"
-                    val toast = Toast.makeText(activity, text, Toast.LENGTH_LONG)
+                    val toast = MyToast(activity, text)
                     toast.show()
                 }
             }
