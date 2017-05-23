@@ -52,6 +52,8 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         setAPIKeyFragment = SetAPIKeyFragment()
         setAPIKeyFragment!!.arguments = bundle
+        accountFragment = AccountFragment()
+        accountFragment!!.arguments = bundle
     }
 
     fun checkAPIKeyFile() {
@@ -86,8 +88,10 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             }
 
             setBundle()
-
-            //TODO call account factment
+            accountFragment!!.arguments = bundle
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, accountFragment)
+                    .commit()
         } else {
             setBundle()
             fragmentManager.beginTransaction()
@@ -134,9 +138,12 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         val id = item.itemId
+        val fragmentManager = fragmentManager
 
         if (id == R.id.account) {
-
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, accountFragment)
+                    .commit()
         }
 
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout

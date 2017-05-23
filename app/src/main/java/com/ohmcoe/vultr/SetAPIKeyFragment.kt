@@ -27,7 +27,7 @@ class SetAPIKeyFragment : Fragment() {
         btnOK = setAPIKeyView!!.findViewById(R.id.btnOK) as Button
         btnOK!!.setOnClickListener (object: View.OnClickListener  {
             override fun onClick(v: View?) {
-                updateAPIKey()
+                    updateAPIKey()
             }
         })
 
