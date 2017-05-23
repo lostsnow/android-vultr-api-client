@@ -25,11 +25,21 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+    <!-- Server fragment -->
     <string name="label">Server Name </string>
     <string name="os">OS </string>
     <string name="ip">Server IP </string>
     <string name="ram">Ram </string>
     <string name="serverState">Server State</string>
     <string name="pendingCharges">Pending Charges</string>
-    <string name="bandwidth">Bandwidth</string>
+    <string name="bandwidth">Monthly Bandwidth</string>
+    <string name="showdetail">Show details</string>
+    <string name="server_information">Server information</string>
+    <string name="usage">Usage</string>
+    <string name="inbound">Inbound</string>
+    <string name="outbound">Outbound</string>
+    <string name="bandwidthHistory">Bandwidth History</string>
+    <string name="view">Tab here to view</string>
+    <string name="title_activity_bandwidth_graph">BandwidthGraph</string>
 </resources>

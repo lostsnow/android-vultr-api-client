@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 
     <TableLayout
         android:layout_width="match_parent"
@@ -10,144 +11,229 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
-                android:text="@string/label"
+                android:id="@+id/lblServerInformation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lblLabel" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtLabel"
-                android:paddingStart="5dp"
-                android:paddingEnd="0dp"
-                tools:text="Name" />
+                android:text="@string/server_information"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
-                android:text="@string/os"
+                android:id="@+id/lblLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lblOS" />
+                android:text="@string/label" />
 
             <TextView
+                android:id="@+id/txtLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="5dp"
                 android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                tools:text="Name" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/lblOS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/os" />
+
+            <TextView
                 android:id="@+id/txtOs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
                 tools:text="OS" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
-                android:text="@string/ip"
+                android:id="@+id/lblIP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lblIP" />
+                android:text="@string/ip" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/txtIP"
-                android:paddingStart="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingEnd="0dp"
+                android:paddingStart="5dp"
                 tools:text="IP" />
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
-                android:text="@string/ram"
+                android:id="@+id/lblRam"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lblRam" />
+                android:text="@string/ram" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/txtRam"
-                android:paddingStart="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingEnd="0dp"
+                android:paddingStart="5dp"
                 tools:text="Ram" />
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
-                android:text="@string/serverState"
+                android:id="@+id/lblState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lblState" />
+                android:text="@string/serverState" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/txtState"
-                android:paddingStart="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingEnd="0dp"
+                android:paddingStart="5dp"
                 tools:text="OK" />
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
-                android:text="@string/pendingCharges"
+                android:id="@+id/lblPendingCharges"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lblPendingCharges" />
+                android:text="@string/pendingCharges" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/txtPendingCharges"
-                android:paddingStart="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingEnd="0dp"
+                android:paddingStart="5dp"
                 tools:text="$0.00" />
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/bandwidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/lblBandwidth" />
+                android:textSize="18sp"
+                android:textStyle="bold">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtBandwidth"
-                android:paddingStart="5dp"
-                android:paddingEnd="0dp"
-                tools:text="0.00 GB of 500 GB (5%)" />
-
+            </TextView>
         </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/lblUsage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/usage" />
+
+            <TextView
+                android:id="@+id/txtBandwidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                tools:text="0.00 GB of 500 GB (5%)" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/lblInbound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inbound" />
+
+            <TextView
+                android:id="@+id/txtInbound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                tools:text="0.00 GB" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/lblOutbound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/outbound" />
+
+            <TextView
+                android:id="@+id/txtOutbound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                tools:text="0.00 GB" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/lblBandwidthHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bandwidthHistory" />
+
+            <TextView
+                android:id="@+id/txtBandwidthHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="0dp"
+                android:paddingStart="5dp"
+                android:clickable="true"
+                android:text="@string/view" />
+        </TableRow>
 
     </TableLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -160,7 +246,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btnReload" />
-
     </LinearLayout>
 
 

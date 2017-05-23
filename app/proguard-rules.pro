@@ -41,7 +41,12 @@
 
 -dontwarn okio.**
 
--keep class com.ohmcoe.vultr.Account { *; }
+#-keep class com.ohmcoe.vultr.Account { *; }
 
 #-printmapping build/outputs/mapping/release/mapping.txt
 
+-dontwarn kotlin.**
+
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+}
