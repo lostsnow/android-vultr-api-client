@@ -1,0 +1,8 @@
+<resources>
+    <string name="snapshot">Snapshot</string>
+    <string name="lblSnapshotID">Snapshot ID</string>
+    <string name="lblDate">Date</string>
+    <string name="lblDescription">Description</string>
+    <string name="lblSize">Size</string>
+    <string name="lblStatus">Status</string>
+</resources>

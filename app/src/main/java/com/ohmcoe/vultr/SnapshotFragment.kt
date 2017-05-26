@@ -3,12 +3,13 @@ package com.ohmcoe.vultr
 import android.app.Fragment
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
-import kotlinx.android.synthetic.main.fragment_server_list.view.*
+import kotlinx.android.synthetic.main.fragment_snapshot.view.*
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -18,16 +19,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
-class ServerListFragment : Fragment() {
+class SnapshotFragment : Fragment() {
 
-    var progressDialog:ProgressDialog? = null
-    var serverListLayout:View? = null
+    var progressDialog: ProgressDialog? = null
     private var APIKey: String? = null
-    private var serverList: ServerList? = null
-    private var txtServerList: ListView? = null
+    private var txtSnapshotList: ListView? = null
+    var snapshotView: View? = null
+    private var SnapshotList: SnapshotList? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        serverListLayout = inflater!!.inflate(R.layout.fragment_server_list, container, false)
+        snapshotView = inflater!!.inflate(R.layout.fragment_snapshot, container, false)
 
         progressDialog = ProgressDialog(activity)
         progressDialog!!.setTitle("Loading")
@@ -37,33 +38,19 @@ class ServerListFragment : Fragment() {
         val bundle = arguments
         APIKey = bundle.getString("API-Key")
 
-        serverList = ServerList()
-        txtServerList = serverListLayout!!.txtServerList
-        getServerList()
+        txtSnapshotList = snapshotView!!.txtSnapshotList
 
-        return serverListLayout!!
+        getSnapshotList()
+
+        return snapshotView!!
     }
-
 
     protected fun updateUI() {
-        val serverAdapter = ServerAdapter(activity, R.layout.server_list, serverList!!.toList())
-        txtServerList!!.adapter = serverAdapter
-        txtServerList!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val server = parent.getItemAtPosition(position) as Server
-            val bundle = Bundle()
-            bundle.putString("API-Key", APIKey)
-            bundle.putString("SUBID", server.subid)
-            val serverFragment = ServerFragment()
-            serverFragment.setArguments(bundle)
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, serverFragment)
-                    .addToBackStack(null)
-                    .commit()
-        }
+        val snapshotAdapter = SnapshotAdapter(activity, R.layout.snapshot_list, SnapshotList!!.toList())
+        txtSnapshotList!!.adapter = snapshotAdapter
     }
 
-
-    protected fun getServerList() {
+    protected fun getSnapshotList() {
         progressDialog!!.show()
 
         val API_BASE_URL = resources.getString(R.string.base_uri)
@@ -79,14 +66,15 @@ class ServerListFragment : Fragment() {
                 .build()
 
         val client = retrofit.create(VultrClient::class.java)
-        val call = client.getServerList(APIKey)
+        val call = client.getSnapshotList(APIKey)
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 try {
                     if (response.code() == 200) {
                         val body = response.body().string()
-                        serverList = ServerList(body)
+                        Log.e("Test", body)
+                        SnapshotList = SnapshotList(body)
                         updateUI()
                     } else {
                         val text = "Loading Failure response code " + response.code()
@@ -105,4 +93,5 @@ class ServerListFragment : Fragment() {
             }
         })
     }
+
 }// Required empty public constructor

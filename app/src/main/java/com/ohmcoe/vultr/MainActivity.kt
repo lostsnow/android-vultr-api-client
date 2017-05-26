@@ -28,6 +28,7 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private var serverFragment: Fragment? = null
     private var setAPIKeyFragment: SetAPIKeyFragment? = null
     private var serverListFragment: Fragment? = null
+    private var snapshotFragment:Fragment? = null
     var bundle: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +59,8 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         serverFragment!!.arguments = bundle
         serverListFragment = ServerListFragment()
         serverListFragment!!.arguments = bundle
+        snapshotFragment = SnapshotFragment()
+        snapshotFragment!!.arguments = bundle
     }
 
     fun checkAPIKeyFile() {
@@ -144,13 +147,16 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val id = item.itemId
         val fragmentManager = fragmentManager
 
-        if (id == R.id.account) {
-            fragmentManager.beginTransaction()
+
+        when (id) {
+            R.id.account ->  fragmentManager.beginTransaction()
                     .replace(content_frame.id, accountFragment)
                     .commit()
-        } else if (id == R.id.server) {
-            fragmentManager.beginTransaction()
+            R.id.server ->   fragmentManager.beginTransaction()
                     .replace(content_frame.id, serverListFragment)
+                    .commit()
+            R.id.snapshot -> fragmentManager.beginTransaction()
+                    .replace(content_frame.id, snapshotFragment)
                     .commit()
         }
 
