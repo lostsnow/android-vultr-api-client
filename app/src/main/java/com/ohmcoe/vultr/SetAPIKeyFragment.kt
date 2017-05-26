@@ -7,25 +7,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
+import kotlinx.android.synthetic.main.fragment_set_apikey.view.*
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 
 
 class SetAPIKeyFragment : Fragment() {
-    var setAPIKeyView: View? = null
-    var txtAPIKey: EditText? = null
-    var btnOK: Button?= null
     private var APIKey: String? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        setAPIKeyView = inflater!!.inflate(R.layout.fragment_set_apikey, container, false)
+        val setAPIKeyView = inflater!!.inflate(R.layout.fragment_set_apikey, container, false)
 
-        txtAPIKey = setAPIKeyView!!.findViewById(R.id.txtAPIKey) as EditText
-        btnOK = setAPIKeyView!!.findViewById(R.id.btnOK) as Button
-        btnOK!!.setOnClickListener (object: View.OnClickListener  {
+        setAPIKeyView.btnOK.setOnClickListener (object: View.OnClickListener  {
             override fun onClick(v: View?) {
                     updateAPIKey()
             }
@@ -33,19 +27,19 @@ class SetAPIKeyFragment : Fragment() {
 
         val bundle = arguments
         APIKey = bundle.getString("API-Key")
-        txtAPIKey!!.setText(APIKey)
+        setAPIKeyView.txtAPIKey.setText(APIKey)
 
-        return setAPIKeyView as View
+        return setAPIKeyView
     }
 
     fun updateAPIKey():Unit
     {
-        var fileName:String = MainActivity.Config.configFile
-        var outputStream:FileOutputStream
+        val fileName:String = MainActivity.Config.configFile
+        val outputStream:FileOutputStream
 
         try {
             outputStream = activity.openFileOutput(fileName, Context.MODE_PRIVATE)
-            outputStream.write(txtAPIKey!!.getText().toString().toByteArray())
+            outputStream.write(view.txtAPIKey.getText().toString().toByteArray())
             outputStream.close()
         }
         catch (e: FileNotFoundException) {

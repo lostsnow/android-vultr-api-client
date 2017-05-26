@@ -53,7 +53,7 @@
                 android:text="@string/os" />
 
             <TextView
-                android:id="@+id/txtOs"
+                android:id="@+id/txtOS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="0dp"

@@ -7,40 +7,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import kotlinx.android.synthetic.main.server_layout.view.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
-import java.text.DecimalFormat
 
-
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ServerFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ServerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ServerFragment : Fragment() {
     var serverView:View? =null
     private var progressDialog: ProgressDialog? = null
     var serverList: ServerList? = null
-
-    var txtIP: TextView? = null
-    var txtRam: TextView? = null
-    var txtLabel: TextView? = null
-    var txtOS: TextView? = null
-    var txtState: TextView? = null
-    var txtPendingCharges: TextView? = null
-    var txtBandwidth: TextView? = null
-    var txtBandwidthHistory: TextView? = null
-    var txtInbound: TextView? = null
-    var txtOutbound: TextView? = null
-    var btnReload: Button? = null
     var bandwidth: Bandwidth? = null
 
     private var APIKey: String? = null
@@ -58,28 +35,13 @@ class ServerFragment : Fragment() {
 
         myToast = MyToast(activity, "")
 
-        txtIP = serverView.findViewById(R.id.txtIP) as TextView
-        txtRam = serverView.findViewById(R.id.txtRam) as TextView
-        txtLabel = serverView.findViewById(R.id.txtLabel) as TextView
-        txtOS = serverView.findViewById(R.id.txtOs) as TextView
-        txtState = serverView.findViewById(R.id.txtState) as TextView
-        txtPendingCharges = serverView.findViewById(R.id.txtPendingCharges) as TextView
-        txtBandwidth = serverView.findViewById(R.id.txtBandwidth) as TextView
-        btnReload = serverView.findViewById(R.id.btnReload) as Button
-
-        //bandwidth view
-        txtInbound = serverView.findViewById(R.id.txtInbound) as TextView
-        txtOutbound = serverView.findViewById(R.id.txtOutbound) as TextView
-        txtBandwidthHistory = serverView.findViewById(R.id.txtBandwidthHistory) as TextView
-        /* bandwidthGraph = (LinearLayout) serverView.findViewById(R.id.bandwidhGraph);*/
-
-        btnReload!!.setOnClickListener(object: View.OnClickListener {
+        serverView.btnReload.setOnClickListener(object: View.OnClickListener {
             override fun onClick(v: View?) {
                 getServerList()
             }
         })
 
-        txtBandwidthHistory!!.setOnClickListener(object: View.OnClickListener {
+        serverView.txtBandwidthHistory!!.setOnClickListener(object: View.OnClickListener {
             override fun onClick(v: View?) {
                 showBandwidthGraph()
             }
@@ -97,17 +59,19 @@ class ServerFragment : Fragment() {
     }
 
     protected fun updateUI() {
+
+        val view = serverView!!
+
         if (serverList != null) {
             for (server in serverList!!.serverLists!!) {
                 if (server.subid.equals(SUBID)) {
-                    txtIP!!.text = server.main_ip
-                    txtRam!!.text = server.ram
-                    txtLabel!!.text = server.label
-                    txtOS!!.text = server.os
-                    txtState!!.text = server.server_state
-                    txtPendingCharges!!.text = server.strPendingCharges
-                    txtBandwidth!!.text = server.bandwidth
-                    btnReload = serverView!!.findViewById(R.id.btnReload) as Button
+                    view.txtIP.text = server.main_ip
+                    view.txtRam.text = server.ram
+                    view.txtLabel.text = server.label
+                    view.txtOS.text = server.os
+                    view.txtState.text = server.server_state
+                    view.txtPendingCharges.text = server.strPendingCharges
+                    view.txtBandwidth.text = server.bandwidth
                 }
             }
         }
@@ -129,10 +93,12 @@ class ServerFragment : Fragment() {
     }
 
     protected fun updateBandwidthUI() {
+        val view = serverView!!
+
         if (bandwidth != null) {
             //update inbound
-            txtInbound!!.setText(this.humanByte(bandwidth!!.sumInbound))
-            txtOutbound!!.setText(this.humanByte(bandwidth!!.sumOutbound))
+            view.txtInbound.setText(this.humanByte(bandwidth!!.sumInbound))
+            view.txtOutbound.setText(this.humanByte(bandwidth!!.sumOutbound))
         }
     }
 

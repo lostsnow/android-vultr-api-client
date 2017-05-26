@@ -4,12 +4,13 @@ import android.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -32,16 +33,15 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        val  drawer = drawer_layout
         val toggle = ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
-        val navigationView = findViewById(R.id.nav_view) as NavigationView
+        val navigationView = nav_view
         navigationView.setNavigationItemSelectedListener(this)
 
         checkAPIKeyFile()
@@ -63,16 +63,16 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     fun checkAPIKeyFile() {
         bundle = Bundle()
 
-        var fragmentManager = fragmentManager
+        val fragmentManager = fragmentManager
 
-        var file = File(application.filesDir, configFile)
+        val file = File(application.filesDir, configFile)
 
         if (file.exists()) {
             val fis: FileInputStream
             try {
                 fis = openFileInput(configFile)
-                var str = StringBuffer("")
-                var buffer = ByteArray(1024)
+                val str = StringBuffer("")
+                val buffer = ByteArray(1024)
                 var n: Int
 
                 while (true) {
@@ -94,19 +94,19 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             setBundle()
             accountFragment!!.arguments = bundle
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, accountFragment)
+                    .replace(content_frame.id, accountFragment)
                     .commit()
         } else {
             setBundle()
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, setAPIKeyFragment)
+                    .replace(content_frame.id, setAPIKeyFragment)
                     .addToBackStack(null)
                     .commit()
         }
     }
 
     override fun onBackPressed() {
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        val drawer = drawer_layout
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
@@ -130,7 +130,7 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         if (id == R.id.action_settings) {
             val fragmentManager = fragmentManager
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, setAPIKeyFragment)
+                    .replace(content_frame.id, setAPIKeyFragment)
                     .addToBackStack(null)
                     .commit()
             return false
@@ -146,15 +146,15 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         if (id == R.id.account) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, accountFragment)
+                    .replace(content_frame.id, accountFragment)
                     .commit()
         } else if (id == R.id.server) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, serverListFragment)
+                    .replace(content_frame.id, serverListFragment)
                     .commit()
         }
 
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        val drawer = drawer_layout
         drawer.closeDrawer(GravityCompat.START)
         return true
     }

@@ -8,6 +8,7 @@ class Account {
     @SerializedName("balance")
     @Expose
     var balance: String? = null
+
     @SerializedName("pending_charges")
     @Expose
     var pendingCharges: String? = null
@@ -17,5 +18,4 @@ class Account {
     @SerializedName("last_payment_amount")
     @Expose
     var lastPaymentAmount: String? = null
-
 }
