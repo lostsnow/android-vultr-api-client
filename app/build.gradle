@@ -3,14 +3,25 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    signingConfigs {
+       config {
+           Properties properties = new Properties()
+           properties.load(project.rootProject.file('local.properties').newDataInputStream())
+           storeFile file(properties.getProperty('storeFile'))
+           keyAlias properties.getProperty('keyAlias')
+           storePassword properties.getProperty('storePassword')
+           keyPassword properties.getProperty('keyPassword')
+       }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.ohmcoe.vultr"
+        Properties properties = new Properties()
+        applicationId properties.getProperty('applicationId')
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode properties.getProperty('versionCode')
+        versionName properties.getProperty('versionName')
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
