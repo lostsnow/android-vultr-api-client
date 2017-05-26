@@ -1,13 +1,8 @@
 package com.ohmcoe.vultr
 
-import android.icu.text.DecimalFormat
-
 import org.json.JSONException
 import org.json.JSONObject
 
-/**
- * Created by OHM on 10/3/2560.
- */
 
 class Server {
     var subid: String? = null
@@ -40,8 +35,8 @@ class Server {
         get() {
             var bandwidth = ""
 
-            val currentBandwidth = java.lang.Double.parseDouble(current_bandwidth_gb)
-            val allowedBandwidth = java.lang.Double.parseDouble(allowed_bandwidth_gb)
+            val currentBandwidth = current_bandwidth_gb!!.toDouble()
+            val allowedBandwidth = allowed_bandwidth_gb!!.toDouble()
 
             bandwidth += current_bandwidth_gb + " GB of " + allowed_bandwidth_gb + " GB (" + String.format("%.0f", currentBandwidth / allowedBandwidth * 100) + "%)"
             return bandwidth

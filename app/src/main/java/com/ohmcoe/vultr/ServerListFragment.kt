@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
+import kotlinx.android.synthetic.main.fragment_server_list.view.*
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -17,15 +18,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
-
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ServerListFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ServerListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ServerListFragment : Fragment() {
 
     var progressDialog:ProgressDialog? = null
@@ -45,16 +37,14 @@ class ServerListFragment : Fragment() {
         val bundle = arguments
         APIKey = bundle.getString("API-Key")
 
-
         prepareServerList()
-
 
         return serverListLayout!!
     }
 
     protected fun prepareServerList() {
         serverList = ServerList()
-        txtServerList = serverListLayout!!.findViewById(R.id.txtServerList) as ListView
+        txtServerList = serverListLayout!!.txtServerList
         getServerList()
     }
 

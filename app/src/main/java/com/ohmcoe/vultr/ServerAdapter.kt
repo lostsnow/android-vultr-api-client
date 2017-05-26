@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.TextView
+import com.ohmcoe.vultr.R.id.txtPendingCharges
+import com.ohmcoe.vultr.R.id.txtServerName
+import kotlinx.android.synthetic.main.server_list.view.*
 
 class ServerAdapter : ArrayAdapter<Server> {
 
@@ -25,9 +27,9 @@ class ServerAdapter : ArrayAdapter<Server> {
         }
 
         if (server != null) {
-            val txtServerName = view!!.findViewById(R.id.txtServerName) as TextView
-            val txtPendingCharges = view.findViewById(R.id.txtPendingCharges) as TextView
-            val txtIP = view.findViewById(R.id.txtIP) as TextView
+            val txtServerName = view!!.txtServerName
+            val txtPendingCharges = view.txtPendingCharges;
+            val txtIP = view.txtIP
 
             if (txtServerName != null) {
                 txtServerName.text = server.label

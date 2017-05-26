@@ -1,10 +1,10 @@
 package com.ohmcoe.vultr
 
+
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.LinearLayout
-
+import kotlinx.android.synthetic.main.content_bandwidth_graph.*
 import org.achartengine.ChartFactory
 import org.achartengine.chart.BarChart
 import org.achartengine.model.XYMultipleSeriesDataset
@@ -18,14 +18,11 @@ class BandwidthGraphActivity : AppCompatActivity() {
     internal var inbound: DoubleArray? = null
     internal var outbound: DoubleArray? = null
     internal var x: IntArray? = null
-    internal var bandwidthGraph: LinearLayout? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_bandwidth_graph)
-
-        bandwidthGraph = findViewById(R.id.bandwidthGraph) as LinearLayout
 
         val intent = intent
         x = intent.getIntArrayExtra("x")
@@ -93,8 +90,8 @@ class BandwidthGraphActivity : AppCompatActivity() {
         multipleSeriesRenderer.addSeriesRenderer(inboundRender)
         multipleSeriesRenderer.addSeriesRenderer(outBoundRender)
 
-        bandwidthGraph!!.removeAllViews()
+        bandwidthGraph.removeAllViews()
         val mChart = ChartFactory.getBarChartView(this, dataset, multipleSeriesRenderer, BarChart.Type.DEFAULT)
-        bandwidthGraph!!.addView(mChart)
+        bandwidthGraph.addView(mChart)
     }
 }

@@ -6,33 +6,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.fragment_account.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AccountFragment : Fragment() {
 
-
-    private var txtCurrentBalance: TextView? = null
-    private var txtPendingCharges: TextView? = null
-    private var txtRemainingBalance: TextView? = null
     private var progressDialog: ProgressDialog? = null
-    private var btnReload: Button? = null
 
     private var APIKey: String? = null
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        var accountView = inflater!!.inflate(R.layout.fragment_account, container, false)
+        val accountView = inflater!!.inflate(R.layout.fragment_account, container, false)
 
-        txtCurrentBalance = accountView.findViewById(R.id.txtCurrentBalance) as TextView
-        txtPendingCharges = accountView.findViewById(R.id.txtPendingCharges) as TextView
-        txtRemainingBalance = accountView.findViewById(R.id.txtRemainBalance) as TextView
-        btnReload = accountView.findViewById(R.id.btnReload) as Button
 
-        btnReload!!.setOnClickListener ( object: View.OnClickListener {
+        accountView.btnReload.setOnClickListener ( object: View.OnClickListener {
             override fun onClick(v: View?) {
                 getAccount()
             }
@@ -49,24 +40,24 @@ class AccountFragment : Fragment() {
 
         getAccount()
 
-        return accountView as View
+        return accountView
     }
 
     protected fun refreshAccountUI(response: Response<Account>) {
         val account = response.body()
 
 
-        val currentBalance = java.lang.Double.parseDouble(account.balance)
-        val pendingCharge = java.lang.Double.parseDouble(account.pendingCharges)
+        val currentBalance = account.balance!!.toDouble()
+        val pendingCharge = account.pendingCharges!!.toDouble()
         val remainBalance = currentBalance + pendingCharge
 
         val stringCurrentBalance = "$" + String.format("%02.2f", currentBalance * -1)
         val stringPendingCharges = "$" + String.format("%02.2f", pendingCharge)
         val stringRemainBalance = "$" + String.format("%02.2f", remainBalance * -1)
 
-        txtCurrentBalance!!.setText(stringCurrentBalance)
-        txtPendingCharges!!.setText(stringPendingCharges)
-        txtRemainingBalance!!.setText(stringRemainBalance)
+        txtCurrentBalance.setText(stringCurrentBalance)
+        txtPendingCharges.setText(stringPendingCharges)
+        txtRemainBalance.setText(stringRemainBalance)
 
         progressDialog!!.dismiss()
     }
@@ -94,7 +85,7 @@ class AccountFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Account>, t: Throwable) {
-                txtCurrentBalance!!.setText(t.message)
+                txtCurrentBalance.setText(t.message)
             }
         })
     }
