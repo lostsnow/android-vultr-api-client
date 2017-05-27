@@ -35,17 +35,9 @@ class ServerFragment : Fragment() {
 
         myToast = MyToast(activity, "")
 
-        serverView.btnReload.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                getServerList()
-            }
-        })
+        serverView.btnReload.setOnClickListener { getServerList() }
 
-        serverView.txtBandwidthHistory!!.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                showBandwidthGraph()
-            }
-        })
+        serverView.txtBandwidthHistory.setOnClickListener { showBandwidthGraph() }
 
         val bundle = arguments
         APIKey = bundle.getString("API-Key")

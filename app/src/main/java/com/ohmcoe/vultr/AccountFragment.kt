@@ -22,12 +22,7 @@ class AccountFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val accountView = inflater!!.inflate(R.layout.fragment_account, container, false)
 
-
-        accountView.btnReload.setOnClickListener ( object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                getAccount()
-            }
-        })
+        accountView.btnReload.setOnClickListener { getAccount() }
 
         //create waiting dialog
         progressDialog = ProgressDialog(activity)

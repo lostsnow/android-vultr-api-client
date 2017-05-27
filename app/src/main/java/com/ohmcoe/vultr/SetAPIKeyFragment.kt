@@ -19,11 +19,7 @@ class SetAPIKeyFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val setAPIKeyView = inflater!!.inflate(R.layout.fragment_set_apikey, container, false)
 
-        setAPIKeyView.btnOK.setOnClickListener (object: View.OnClickListener  {
-            override fun onClick(v: View?) {
-                    updateAPIKey()
-            }
-        })
+        setAPIKeyView.btnOK.setOnClickListener { updateAPIKey() }
 
         val bundle = arguments
         APIKey = bundle.getString("API-Key")
@@ -32,17 +28,15 @@ class SetAPIKeyFragment : Fragment() {
         return setAPIKeyView
     }
 
-    fun updateAPIKey():Unit
-    {
-        val fileName:String = MainActivity.Config.configFile
-        val outputStream:FileOutputStream
+    fun updateAPIKey(): Unit {
+        val fileName: String = MainActivity.Config.configFile
+        val outputStream: FileOutputStream
 
         try {
             outputStream = activity.openFileOutput(fileName, Context.MODE_PRIVATE)
             outputStream.write(view.txtAPIKey.getText().toString().toByteArray())
             outputStream.close()
-        }
-        catch (e: FileNotFoundException) {
+        } catch (e: FileNotFoundException) {
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
