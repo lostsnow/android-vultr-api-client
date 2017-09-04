@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ListView
 import kotlinx.android.synthetic.main.fragment_snapshot.view.*
 import okhttp3.OkHttpClient
@@ -46,8 +45,10 @@ class SnapshotFragment : Fragment() {
     }
 
     protected fun updateUI() {
-        val snapshotAdapter = SnapshotAdapter(activity, R.layout.snapshot_list, SnapshotList!!.toList())
-        txtSnapshotList!!.adapter = snapshotAdapter
+        if (activity != null) {
+            val snapshotAdapter = SnapshotAdapter(activity, R.layout.snapshot_list, SnapshotList!!.toList())
+            txtSnapshotList!!.adapter = snapshotAdapter
+        }
     }
 
     protected fun getSnapshotList() {
@@ -72,7 +73,7 @@ class SnapshotFragment : Fragment() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 try {
                     if (response.code() == 200) {
-                        val body = response.body().string()
+                        val body = response.body()!!.string()
                         Log.e("Test", body)
                         SnapshotList = SnapshotList(body)
                         updateUI()

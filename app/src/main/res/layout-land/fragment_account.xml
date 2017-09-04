@@ -11,100 +11,88 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/lblCurrentBalance"
-        android:textSize="30sp"
+        android:textSize="15sp"
         android:textStyle="normal|bold"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtCurrentBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="18dp"
         android:text="@string/loadError"
         android:textColor="@android:color/holo_green_dark"
-        android:textSize="24sp"
-        tools:text="0.00"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="17dp"
-        android:layout_marginStart="34dp"
-        app:layout_constraintTop_toBottomOf="@+id/lblCurrentBalance" />
+        app:layout_constraintTop_toBottomOf="@+id/lblCurrentBalance"
+        tools:text="0.00" />
 
     <TextView
         android:id="@+id/lblPendingCharges"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
         android:text="@string/lblPendingCharges"
-        android:textSize="30sp"
+        android:textSize="15sp"
         android:textStyle="normal|bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCurrentBalance"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCurrentBalance" />
 
     <TextView
         android:id="@+id/txtPendingCharges"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="18dp"
         android:text="@string/loadError"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="24sp"
-        tools:text="0.00"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="17dp"
-        android:layout_marginStart="34dp"
-        app:layout_constraintTop_toBottomOf="@+id/lblPendingCharges" />
+        app:layout_constraintTop_toBottomOf="@+id/lblPendingCharges"
+        tools:text="0.00" />
 
     <TextView
         android:id="@+id/lblRemainBalance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/lblRemainBalance"
-        android:textSize="30sp"
+        android:textSize="15sp"
         android:textStyle="normal|bold"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtPendingCharges" />
 
     <TextView
         android:id="@+id/txtRemainBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="18dp"
         android:text="@string/loadError"
         android:textColor="@android:color/holo_green_light"
-        android:textSize="24sp"
-        tools:text="0.00"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="17dp"
-        app:layout_constraintTop_toBottomOf="@+id/lblRemainBalance" />
+        app:layout_constraintTop_toBottomOf="@+id/lblRemainBalance"
+        tools:text="0.00" />
 
 
     <Button
         android:id="@+id/btnReload"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="145dp"
+        android:layout_height="40dp"
         android:text="@string/btnReload"
-        app:layout_constraintTop_toBottomOf="@+id/txtRemainBalance"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/txtRemainBalance"
         app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guideline"
-        app:layout_constraintGuide_begin="20dp"
-        android:orientation="vertical" />
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guideline2"
-        app:layout_constraintGuide_begin="20dp"
-        android:orientation="horizontal" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

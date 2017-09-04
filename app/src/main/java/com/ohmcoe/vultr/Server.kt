@@ -1,6 +1,5 @@
 package com.ohmcoe.vultr
 
-import org.json.JSONException
 import org.json.JSONObject
 
 
