@@ -1,7 +1,6 @@
 package com.ohmcoe.vultr
 
 import android.app.Fragment
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,45 +19,64 @@ import java.io.IOException
 
 class ServerListFragment : Fragment() {
 
-    var progressDialog:ProgressDialog? = null
-    var serverListLayout:View? = null
-    private var APIKey: String? = null
-    private var serverList: ServerList? = null
-    private var txtServerList: ListView? = null
+    private lateinit var waitDialog: WaitDialog
+    private lateinit var serverListLayout: View
+    private lateinit var APIKey: String
+    private lateinit var serverList: ServerList
+    private lateinit var txtServerList: ListView
+
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         serverListLayout = inflater!!.inflate(R.layout.fragment_server_list, container, false)
 
-        progressDialog = ProgressDialog(activity)
-        progressDialog!!.setTitle("Loading")
-        progressDialog!!.setMessage("Wait while loading...")
-        progressDialog!!.setCancelable(false)
+        waitDialog = WaitDialog.newInstance()
 
         val bundle = arguments
         APIKey = bundle.getString("API-Key")
 
-        prepareServerList()
-
-        return serverListLayout!!
-    }
-
-    protected fun prepareServerList() {
         serverList = ServerList()
-        txtServerList = serverListLayout!!.txtServerList
-        getServerList()
+        txtServerList = serverListLayout.txtServerList
+
+
+        //restore instance
+        if (savedInstanceState == null) {
+            getServerList()
+        } else {
+            serverList = savedInstanceState.getParcelable("serverList")
+            if (serverList.body == "" || serverList.body == null)
+                getServerList()
+            else
+                updateUI()
+        }
+
+        return serverListLayout
+    }
+
+    private fun dismissDialog() {
+        waitDialog.dismiss()
+    }
+
+    private fun showDialog() {
+        childFragmentManager.executePendingTransactions()
+        waitDialog.isCancelable = false
+        if (!waitDialog.isAdded)
+            waitDialog.show(childFragmentManager, "waitDialog")
     }
 
 
-    protected fun updateUI() {
-        val serverAdapter = ServerAdapter(activity, R.layout.server_list, serverList!!.toList())
-        txtServerList!!.adapter = serverAdapter
-        txtServerList!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+    private fun updateUI() {
+        if (activity == null)
+            return
+
+        val serverAdapter = ServerAdapter(activity, R.layout.server_list, serverList.toList())
+        txtServerList.adapter = serverAdapter
+        txtServerList.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             val server = parent.getItemAtPosition(position) as Server
             val bundle = Bundle()
             bundle.putString("API-Key", APIKey)
             bundle.putString("SUBID", server.subid)
             val serverFragment = ServerFragment()
-            serverFragment.setArguments(bundle)
+            serverFragment.arguments = bundle
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, serverFragment)
                     .addToBackStack(null)
@@ -67,8 +85,8 @@ class ServerListFragment : Fragment() {
     }
 
 
-    protected fun getServerList() {
-        progressDialog!!.show()
+    private fun getServerList() {
+        showDialog()
 
         val API_BASE_URL = resources.getString(R.string.base_uri)
 
@@ -83,13 +101,13 @@ class ServerListFragment : Fragment() {
                 .build()
 
         val client = retrofit.create(VultrClient::class.java)
-        val call = client.getServerList(APIKey)
+        val clientCall = client.getServerList(APIKey)
 
-        call.enqueue(object : Callback<ResponseBody> {
+        clientCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 try {
                     if (response.code() == 200) {
-                        val body = response.body().string()
+                        val body = response.body()!!.string()
                         serverList = ServerList(body)
                         updateUI()
                     } else {
@@ -101,12 +119,18 @@ class ServerListFragment : Fragment() {
                     e.printStackTrace()
                 }
 
-                progressDialog!!.dismiss()
+                dismissDialog()
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                progressDialog!!.dismiss()
+                dismissDialog()
             }
         })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        outState?.putParcelable("serverList", serverList)
     }
 }// Required empty public constructor

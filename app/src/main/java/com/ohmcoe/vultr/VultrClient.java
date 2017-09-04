@@ -12,14 +12,23 @@ public interface VultrClient {
             @Header("API-Key") String api_key
     );
 
+    //server
     @GET("/v1/server/list")
     Call<ResponseBody> getServerList(
             @Header("API-Key") String api_key
     );
 
+    //bandwidth
     @GET("/v1/server/bandwidth")
     Call<Bandwidth> getServerBandwidth(
             @Header("API-Key") String api_key,
             @Query("SUBID") String subid
     );
+
+    //snapshot
+    @GET("/v1/snapshot/list")
+    Call<ResponseBody> getSnapshotList(
+            @Header("API-Key") String api_key
+    );
+
 }

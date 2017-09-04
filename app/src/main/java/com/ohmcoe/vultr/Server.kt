@@ -1,6 +1,5 @@
 package com.ohmcoe.vultr
 
-import org.json.JSONException
 import org.json.JSONObject
 
 
@@ -15,7 +14,6 @@ class Server {
     var current_bandwidth_gb: String? = null
     var allowed_bandwidth_gb: String? = null
 
-    @Throws(JSONException::class)
     fun loadAttribute(jObj: JSONObject) {
         this.subid = jObj.getString("SUBID")
         this.os = jObj.getString("os")

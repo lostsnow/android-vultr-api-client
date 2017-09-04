@@ -1,6 +1,7 @@
 package com.ohmcoe.vultr
 
 import android.app.Fragment
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -11,23 +12,19 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.IOException
 
 class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    object Config {
-        val configFile = "config.ohmcoe"
+    companion object {
+        val PREFS_NAME:String = "VultrAPIClientFile"
+        val API_KEY:String = "API_KEY"
     }
 
-    val configFile = "config.ohmcoe"
     private var api_key: String? = null
     private var accountFragment: Fragment? = null
-    private var serverFragment: Fragment? = null
     private var setAPIKeyFragment: SetAPIKeyFragment? = null
     private var serverListFragment: Fragment? = null
+    private var snapshotFragment: Fragment? = null
     var bundle: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,69 +32,43 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val  drawer = drawer_layout
-        val toggle = ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val drawer = drawer_layout
+        val toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
         val navigationView = nav_view
         navigationView.setNavigationItemSelectedListener(this)
 
-        checkAPIKeyFile()
+        checkAPIKeyFile(savedInstanceState)
     }
 
-    fun setBundle() {
-        this.bundle!!.putString("API-Key", api_key)
+    fun setBundle(api_key: String?) {
+        bundle!!.putString("API-Key", api_key)
 
         setAPIKeyFragment = SetAPIKeyFragment()
         setAPIKeyFragment!!.arguments = bundle
         accountFragment = AccountFragment()
         accountFragment!!.arguments = bundle
-        serverFragment = ServerFragment()
-        serverFragment!!.arguments = bundle
         serverListFragment = ServerListFragment()
         serverListFragment!!.arguments = bundle
+        snapshotFragment = SnapshotFragment()
+        snapshotFragment!!.arguments = bundle
     }
 
-    fun checkAPIKeyFile() {
+    fun checkAPIKeyFile(savedInstanceState: Bundle?) {
         bundle = Bundle()
 
-        val fragmentManager = fragmentManager
+        val sharedPreferences = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE)
+        api_key = sharedPreferences.getString(MainActivity.API_KEY, null)
 
-        val file = File(application.filesDir, configFile)
-
-        if (file.exists()) {
-            val fis: FileInputStream
-            try {
-                fis = openFileInput(configFile)
-                val str = StringBuffer("")
-                val buffer = ByteArray(1024)
-                var n: Int
-
-                while (true) {
-                    n = fis.read(buffer)
-                    if (n == -1)
-                        break
-
-                    str.append(String(buffer, 0, n))
-                }
-
-                this.api_key = str.toString()
-                fis.close()
-            } catch(e: FileNotFoundException) {
-                e.printStackTrace()
-            } catch (e: IOException) {
-                e.printStackTrace()
+        if (api_key != null) {
+            setBundle(api_key)
+            if (savedInstanceState == null) {
+                showAccountFragment()
             }
-
-            setBundle()
-            accountFragment!!.arguments = bundle
-            fragmentManager.beginTransaction()
-                    .replace(content_frame.id, accountFragment)
-                    .commit()
         } else {
-            setBundle()
+            setBundle(api_key)
             fragmentManager.beginTransaction()
                     .replace(content_frame.id, setAPIKeyFragment)
                     .addToBackStack(null)
@@ -126,14 +97,8 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
 
-
         if (id == R.id.action_settings) {
-            val fragmentManager = fragmentManager
-            fragmentManager.beginTransaction()
-                    .replace(content_frame.id, setAPIKeyFragment)
-                    .addToBackStack(null)
-                    .commit()
-            return false
+            showSettingsFragment()
         }
 
         return super.onOptionsItemSelected(item)
@@ -142,20 +107,42 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         val id = item.itemId
-        val fragmentManager = fragmentManager
 
-        if (id == R.id.account) {
-            fragmentManager.beginTransaction()
-                    .replace(content_frame.id, accountFragment)
-                    .commit()
-        } else if (id == R.id.server) {
-            fragmentManager.beginTransaction()
-                    .replace(content_frame.id, serverListFragment)
-                    .commit()
+        when (id) {
+            R.id.account -> showAccountFragment()
+            R.id.server -> showServerListFragment()
+            R.id.snapshot -> showSnapshotFragment()
         }
 
         val drawer = drawer_layout
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun showAccountFragment()
+    {
+        fragmentManager.beginTransaction()
+                .replace(content_frame.id, accountFragment)
+                .commit()
+    }
+
+    fun showServerListFragment()
+    {
+        fragmentManager.beginTransaction()
+                .replace(content_frame.id, serverListFragment)
+                .commit()
+    }
+
+    fun showSnapshotFragment() {
+        fragmentManager.beginTransaction()
+                .replace(content_frame.id, snapshotFragment)
+                .commit()
+    }
+
+    private fun showSettingsFragment() {
+        fragmentManager.beginTransaction()
+                .replace(content_frame.id, setAPIKeyFragment)
+                .addToBackStack(null)
+                .commit()
     }
 }

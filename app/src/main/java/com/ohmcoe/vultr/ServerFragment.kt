@@ -1,7 +1,6 @@
 package com.ohmcoe.vultr
 
 import android.app.Fragment
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,37 +14,26 @@ import retrofit2.Response
 import java.io.IOException
 
 class ServerFragment : Fragment() {
-    var serverView:View? =null
-    private var progressDialog: ProgressDialog? = null
-    var serverList: ServerList? = null
-    var bandwidth: Bandwidth? = null
+    private lateinit var serverView: View
+    private lateinit var APIKey: String
+    private lateinit var SUBID: String
+    private lateinit var myToast: MyToast
+    private lateinit var  waitDialog: WaitDialog
 
-    private var APIKey: String? = null
-    private var SUBID: String? = null
+    private var serverList: ServerList? = null
+    private var bandwidth: Bandwidth? = null
 
-    private var myToast: MyToast? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val serverView = inflater!!.inflate(R.layout.server_layout, container, false)
 
-        progressDialog = ProgressDialog(activity)
-        progressDialog!!.setTitle("Loading")
-        progressDialog!!.setMessage("Wait while loading...")
-        progressDialog!!.setCancelable(false)
-
         myToast = MyToast(activity, "")
 
-        serverView.btnReload.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                getServerList()
-            }
-        })
+        waitDialog = WaitDialog.newInstance()
 
-        serverView.txtBandwidthHistory!!.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(v: View?) {
-                showBandwidthGraph()
-            }
-        })
+        serverView.btnReload.setOnClickListener { getServerList() }
+
+        serverView.txtBandwidthHistory.setOnClickListener { showBandwidthGraph() }
 
         val bundle = arguments
         APIKey = bundle.getString("API-Key")
@@ -58,9 +46,9 @@ class ServerFragment : Fragment() {
         return serverView
     }
 
-    protected fun updateUI() {
 
-        val view = serverView!!
+    private fun updateUI() {
+        val view = serverView
 
         if (serverList != null) {
             for (server in serverList!!.serverLists!!) {
@@ -79,7 +67,7 @@ class ServerFragment : Fragment() {
         updateBandwidthUI()
     }
 
-    protected fun showBandwidthGraph() {
+    private fun showBandwidthGraph() {
         if (bandwidth == null)
             updateBandwidthUI()
 
@@ -92,13 +80,13 @@ class ServerFragment : Fragment() {
         startActivity(intent)
     }
 
-    protected fun updateBandwidthUI() {
-        val view = serverView!!
+    private fun updateBandwidthUI() {
+        val view = serverView
 
         if (bandwidth != null) {
             //update inbound
-            view.txtInbound.setText(this.humanByte(bandwidth!!.sumInbound))
-            view.txtOutbound.setText(this.humanByte(bandwidth!!.sumOutbound))
+            view.txtInbound.text = this.humanByte(bandwidth?.sumInbound)
+            view.txtOutbound.text = this.humanByte(bandwidth?.sumOutbound)
         }
     }
 
@@ -123,63 +111,74 @@ class ServerFragment : Fragment() {
         return strByte + " " + postfix
     }
 
-    protected fun getBandwidth() {
-        progressDialog!!.show()
 
+    private fun dismissDialog() {
+        waitDialog.dismiss()
+    }
+
+    private fun showDialog() {
+        childFragmentManager.executePendingTransactions()
+        waitDialog.isCancelable = false
+        if (!waitDialog.isAdded)
+            waitDialog.show(childFragmentManager, "waitDialog")
+    }
+
+
+    private fun getBandwidth() {
         val retrofitClient = RetrofitClient(getString(R.string.base_uri))
         val retrofit = retrofitClient.retrofit
 
         val client = retrofit.create(VultrClient::class.java)
-        val call = client.getServerBandwidth(APIKey, SUBID)
+        val clientCall = client.getServerBandwidth(APIKey, SUBID)
 
-        call.enqueue(object : Callback<Bandwidth> {
+        clientCall.enqueue(object : Callback<Bandwidth> {
             override fun onResponse(call: Call<Bandwidth>, response: Response<Bandwidth>) {
                 bandwidth = response.body()
                 updateUI()
-                progressDialog!!.dismiss()
+                dismissDialog()
             }
 
             override fun onFailure(call: Call<Bandwidth>, t: Throwable) {
-                progressDialog!!.dismiss()
+                dismissDialog()
 
-                myToast!!.setText("Connection failure")
-                myToast!!.show()
+                myToast.setText("Connection failure")
+                myToast.show()
             }
         })
     }
 
-    protected fun getServerList() {
-        progressDialog!!.show()
+    private fun getServerList() {
+        showDialog()
 
         val retrofitClient = RetrofitClient(getString(R.string.base_uri))
         val retrofit = retrofitClient.retrofit
 
         val client = retrofit.create(VultrClient::class.java)
-        val call = client.getServerList(APIKey)
+        val clientCall = client.getServerList(APIKey)
 
-        call.enqueue(object : Callback<ResponseBody> {
+        clientCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 try {
                     if (response.code() == 200) {
-                        val body = response.body().string()
+                        val body = response.body()!!.string()
                         serverList = ServerList(body)
                         updateUI()
                     } else {
                         val text = "Loading Failure response code " + response.code()
-                        myToast!!.setText(text)
-                        myToast!!.show()
+                        myToast.setText(text)
+                        myToast.show()
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
 
-                progressDialog!!.dismiss()
+                dismissDialog()
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                progressDialog!!.dismiss()
-                myToast!!.setText("Connection failure")
-                myToast!!.show()
+                dismissDialog()
+                myToast.setText("Connection failure")
+                myToast.show()
             }
         })
 
