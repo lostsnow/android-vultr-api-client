@@ -1,19 +1,21 @@
 package com.ohmcoe.vultr
 
 
+import android.os.Parcel
+import android.os.Parcelable
 import org.json.JSONException
 import org.json.JSONObject
 
 import java.util.ArrayList
 
 
-class ServerList {
+class ServerList() : Parcelable{
 
     var serverLists: ArrayList<Server>? = null
     var body: String? = null
 
-    constructor() {
-
+    constructor(parcel: Parcel) : this() {
+        body = parcel.readString()
     }
 
     fun toList(): List<Server> {
@@ -23,7 +25,7 @@ class ServerList {
     }
 
 
-    constructor(response: String) {
+    constructor(response: String) : this() {
         body = response
         serverLists = ArrayList<Server>()
 
@@ -45,5 +47,23 @@ class ServerList {
             e.printStackTrace()
         }
 
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(body)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<ServerList> {
+        override fun createFromParcel(parcel: Parcel): ServerList {
+            return ServerList(parcel)
+        }
+
+        override fun newArray(size: Int): Array<ServerList?> {
+            return arrayOfNulls(size)
+        }
     }
 }

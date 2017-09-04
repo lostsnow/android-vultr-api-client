@@ -3,44 +3,38 @@ package com.ohmcoe.vultr
 import android.app.Fragment
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_set_apikey.view.*
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
 
 
 class SetAPIKeyFragment : Fragment() {
-    private var APIKey: String? = null
+    private var setAPIKeyView:View? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val setAPIKeyView = inflater!!.inflate(R.layout.fragment_set_apikey, container, false)
+        val settings = activity.getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE)
+        val api:String? = settings.getString(MainActivity.API_KEY, null)
+
 
         setAPIKeyView.btnOK.setOnClickListener { updateAPIKey() }
+        setAPIKeyView.txtAPIKey.setText(api)
 
-        val bundle = arguments
-        APIKey = bundle.getString("API-Key")
-        setAPIKeyView.txtAPIKey.setText(APIKey)
-
+        this.setAPIKeyView = setAPIKeyView
         return setAPIKeyView
     }
 
     fun updateAPIKey(): Unit {
-        val fileName: String = MainActivity.Config.configFile
-        val outputStream: FileOutputStream
+        val sharePreferences = activity.getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE)
+        val editor:SharedPreferences.Editor = sharePreferences.edit()
 
-        try {
-            outputStream = activity.openFileOutput(fileName, Context.MODE_PRIVATE)
-            outputStream.write(view.txtAPIKey.getText().toString().toByteArray())
-            outputStream.close()
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        editor.putString(MainActivity.API_KEY, setAPIKeyView!!.txtAPIKey.text.toString())
+        editor.apply()
+        editor.commit()
+
 
         val intent = Intent(activity, MainActivity::class.java)
         activity.finish()
