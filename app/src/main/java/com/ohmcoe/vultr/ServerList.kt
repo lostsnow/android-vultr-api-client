@@ -18,12 +18,11 @@ class ServerList() : Parcelable{
         body = parcel.readString()
     }
 
-    fun toList(): List<Server> {
+    fun toList(): List<Server>? {
         val list = serverLists
 
-        return list!!
+        return list
     }
-
 
     constructor(response: String) : this() {
         body = response

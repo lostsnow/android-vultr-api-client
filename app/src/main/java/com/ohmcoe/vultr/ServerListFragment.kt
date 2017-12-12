@@ -22,8 +22,8 @@ class ServerListFragment : Fragment() {
     private lateinit var waitDialog: WaitDialog
     private lateinit var serverListLayout: View
     private lateinit var APIKey: String
-    private lateinit var serverList: ServerList
     private lateinit var txtServerList: ListView
+    private var serverList: ServerList? = null
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -43,7 +43,7 @@ class ServerListFragment : Fragment() {
             getServerList()
         } else {
             serverList = savedInstanceState.getParcelable("serverList")
-            if (serverList.body == "" || serverList.body == null)
+            if (serverList == null)
                 getServerList()
             else
                 updateUI()
@@ -65,10 +65,10 @@ class ServerListFragment : Fragment() {
 
 
     private fun updateUI() {
-        if (activity == null)
-            return
+        if (activity == null || serverList == null)
+            return;
 
-        val serverAdapter = ServerAdapter(activity, R.layout.server_list, serverList.toList())
+        val serverAdapter = ServerAdapter(activity, R.layout.server_list, serverList!!.toList()!!)
         txtServerList.adapter = serverAdapter
         txtServerList.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             val server = parent.getItemAtPosition(position) as Server

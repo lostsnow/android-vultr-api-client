@@ -1,15 +1,21 @@
 package com.ohmcoe.vultr
 
 
+import android.os.Parcel
+import android.os.Parcelable
 import org.json.JSONException
 import org.json.JSONObject
 
 
-class SnapshotList(response: String) {
+class SnapshotList() : Parcelable{
 
     var snapshotList: ArrayList<Snapshot>? = null
 
-    init {
+    constructor(parcel: Parcel) : this() {
+
+    }
+
+    constructor(response: String) : this() {
         snapshotList = ArrayList<Snapshot>()
         try {
             val jObj = JSONObject(response)
@@ -30,11 +36,26 @@ class SnapshotList(response: String) {
         }
     }
 
-    fun toList(): List<Snapshot> {
+    fun toList(): List<Snapshot>? {
         val list = snapshotList
 
-        return list!!
+        return list
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+    }
 
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<SnapshotList> {
+        override fun createFromParcel(parcel: Parcel): SnapshotList {
+            return SnapshotList(parcel)
+        }
+
+        override fun newArray(size: Int): Array<SnapshotList?> {
+            return arrayOfNulls(size)
+        }
+    }
 }
