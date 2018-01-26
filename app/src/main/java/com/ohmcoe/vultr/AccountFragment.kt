@@ -91,7 +91,7 @@ class AccountFragment : Fragment() {
                 if (response.code() == 200) {
                     refreshAccountUI(response)
                 } else {
-                    val text = "Loading Failure"
+                    val text = "Loading Failure";
                     val toast = MyToast(activity, text)
                     toast.show()
                     dismissDialog()

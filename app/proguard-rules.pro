@@ -11,6 +11,10 @@
 
 -dontwarn okio.**
 
+-keepclassmembernames,allowobfuscation interface * {
+    @retrofit2.http.* <methods>;
+}
+
 #-printmapping build/outputs/mapping/release/mapping.txt
 
 -dontwarn kotlin.**
@@ -21,3 +25,8 @@
 
 #for retrofit 2.3.0
 -dontwarn javax.annotation.**
+
+#android class
+-keep interface android.support.** { *; }
+-keep class android.support.** { *; }
+
