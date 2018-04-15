@@ -1,4 +1,6 @@
 # Built application files
+.idea
+
 /*/build/
 app/release
 
