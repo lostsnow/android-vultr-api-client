@@ -1,18 +1,8 @@
-package com.ohmcoe.vultr
+package com.ohmcoe.vultr.model
 
 import org.json.JSONObject
 
 class Snapshot {
-
-
-    /*
-    example response from api
-        "SNAPSHOTID": "5359435d28b9a",
-        "date_created": "2014-04-18 12:40:40",
-        "description": "Test snapshot",
-        "size": "42949672960",
-        "status": "complete"
-     */
 
     var snapshotID: String? = null
     var date_created: String? = null
@@ -27,6 +17,4 @@ class Snapshot {
         this.size = jObj.getString("size")
         this.status = jObj.getString("status")
     }
-
-
 }

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ohmcoe.vultr.model.Bandwidth
+import com.ohmcoe.vultr.model.ServerList
 import kotlinx.android.synthetic.main.server_layout.view.*
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -23,25 +25,34 @@ class ServerFragment : Fragment() {
     private var serverList: ServerList? = null
     private var bandwidth: Bandwidth? = null
 
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val serverView = inflater!!.inflate(R.layout.server_layout, container, false)
 
         myToast = MyToast(activity, "")
-
         waitDialog = WaitDialog.newInstance()
 
-        serverView.btnReload.setOnClickListener { getServerList() }
-
-        serverView.txtBandwidthHistory.setOnClickListener { showBandwidthGraph() }
 
         val bundle = arguments
         APIKey = bundle.getString("API-Key")
         SUBID = bundle.getString("SUBID")
 
-        getServerList()
 
+        serverView.btnReload.setOnClickListener { getData() }
+        serverView.txtBandwidthHistory.setOnClickListener { showBandwidthGraph() }
         this.serverView = serverView
+
+        if (savedInstanceState == null)
+            getData()
+        else
+        {
+            serverList = savedInstanceState.getParcelable("serverList")
+            bandwidth = savedInstanceState.getParcelable("bandWidth")
+
+            if (serverList == null || bandwidth == null)
+                getData();
+
+            updateUI();
+        }
 
         return serverView
     }
@@ -68,16 +79,16 @@ class ServerFragment : Fragment() {
     }
 
     private fun showBandwidthGraph() {
-        if (bandwidth == null)
-            updateBandwidthUI()
+        if (bandwidth != null) {
 
-        val intent = Intent(activity, BandwidthGraphActivity::class.java)
-        intent.putExtra("x", bandwidth!!.xGraph)
-        intent.putExtra("dates", bandwidth!!.dates)
-        intent.putExtra("inbound", bandwidth!!.inboundGraph)
-        intent.putExtra("outbound", bandwidth!!.outboundGraph)
+            val intent = Intent(activity, BandwidthGraphActivity::class.java)
+            intent.putExtra("x", bandwidth!!.xGraph)
+            intent.putExtra("dates", bandwidth!!.dates)
+            intent.putExtra("inbound", bandwidth!!.inboundGraph)
+            intent.putExtra("outbound", bandwidth!!.outboundGraph)
 
-        startActivity(intent)
+            startActivity(intent)
+        }
     }
 
     private fun updateBandwidthUI() {
@@ -147,9 +158,14 @@ class ServerFragment : Fragment() {
         })
     }
 
-    private fun getServerList() {
+    private fun getData() {
         showDialog()
 
+        getServerList()
+        getBandwidth()
+    }
+
+    private fun getServerList() {
         val retrofitClient = RetrofitClient(getString(R.string.base_uri))
         val retrofit = retrofitClient.retrofit
 
@@ -181,8 +197,12 @@ class ServerFragment : Fragment() {
                 myToast.show()
             }
         })
-
-        getBandwidth()
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        outState?.putParcelable("serverList", serverList);
+        outState?.putParcelable("bandWidth", bandwidth);
+    }
 }// Required empty public constructor

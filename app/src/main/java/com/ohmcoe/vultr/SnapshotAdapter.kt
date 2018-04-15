@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import com.ohmcoe.vultr.model.Snapshot
 import kotlinx.android.synthetic.main.snapshot_list.view.*
 
 class SnapshotAdapter(context: Context, resource: Int, objects: List<Snapshot>) : ArrayAdapter<Snapshot>(context, resource, objects) {

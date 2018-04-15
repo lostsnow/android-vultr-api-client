@@ -1,4 +1,4 @@
-package com.ohmcoe.vultr
+package com.ohmcoe.vultr.model
 
 import android.os.Parcel
 import android.os.Parcelable

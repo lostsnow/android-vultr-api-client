@@ -1,9 +1,7 @@
 package com.ohmcoe.vultr
 
 import android.app.Fragment
-import android.app.ProgressDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,39 +18,59 @@ import java.io.IOException
 
 class SnapshotFragment : Fragment() {
 
-    var progressDialog: ProgressDialog? = null
     private var APIKey: String? = null
     private var txtSnapshotList: ListView? = null
     var snapshotView: View? = null
-    private var SnapshotList: SnapshotList? = null
+    private var snapshotList: SnapshotList? = null
+    private lateinit var waitDialog: WaitDialog
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         snapshotView = inflater!!.inflate(R.layout.fragment_snapshot, container, false)
 
-        progressDialog = ProgressDialog(activity)
-        progressDialog!!.setTitle("Loading")
-        progressDialog!!.setMessage("Wait while loading...")
-        progressDialog!!.setCancelable(false)
-
+        waitDialog = WaitDialog.newInstance()
         val bundle = arguments
         APIKey = bundle.getString("API-Key")
 
         txtSnapshotList = snapshotView!!.txtSnapshotList
 
-        getSnapshotList()
+        if (savedInstanceState == null) {
+            getSnapshotList()
+        }
+        else
+        {
+            snapshotList = savedInstanceState.getParcelable("snapshotList")
+            if (snapshotList == null)
+                getSnapshotList()
+
+            updateUI()
+        }
 
         return snapshotView!!
     }
 
-    protected fun updateUI() {
+    private fun dismissDialog() {
+        waitDialog.dismiss()
+    }
+
+    private fun showDialog() {
+        childFragmentManager.executePendingTransactions()
+        waitDialog.isCancelable = false
+        if (!waitDialog.isAdded)
+            waitDialog.show(childFragmentManager, "waitDialog")
+    }
+
+    private fun updateUI() {
         if (activity != null) {
-            val snapshotAdapter = SnapshotAdapter(activity, R.layout.snapshot_list, SnapshotList!!.toList())
+            if (snapshotList == null)
+                return;
+
+            val snapshotAdapter = SnapshotAdapter(activity, R.layout.snapshot_list, snapshotList!!.toList()!!)
             txtSnapshotList!!.adapter = snapshotAdapter
         }
     }
 
-    protected fun getSnapshotList() {
-        progressDialog!!.show()
+    private fun getSnapshotList() {
+        showDialog()
 
         val API_BASE_URL = resources.getString(R.string.base_uri)
 
@@ -74,8 +92,7 @@ class SnapshotFragment : Fragment() {
                 try {
                     if (response.code() == 200) {
                         val body = response.body()!!.string()
-                        Log.e("Test", body)
-                        SnapshotList = SnapshotList(body)
+                        snapshotList = SnapshotList(body)
                         updateUI()
                     } else {
                         val text = "Loading Failure response code " + response.code()
@@ -86,13 +103,18 @@ class SnapshotFragment : Fragment() {
                     e.printStackTrace()
                 }
 
-                progressDialog!!.dismiss()
+                dismissDialog()
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                progressDialog!!.dismiss()
+                dismissDialog()
             }
         })
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        outState?.putParcelable("snapshotList", snapshotList)
+    }
 }// Required empty public constructor

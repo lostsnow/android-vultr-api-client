@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     companion object {
-        val PREFS_NAME:String = "VultrAPIClientFile"
-        val API_KEY:String = "API_KEY"
+        val PREFS_NAME: String = "VultrAPIClientFile"
+        val API_KEY: String = "API_KEY"
     }
 
     private var api_key: String? = null
@@ -25,10 +25,18 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private var setAPIKeyFragment: SetAPIKeyFragment? = null
     private var serverListFragment: Fragment? = null
     private var snapshotFragment: Fragment? = null
+    private var firewallFragment: Fragment? = null
     var bundle: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setAPIKeyFragment = SetAPIKeyFragment()
+        accountFragment = AccountFragment()
+        serverListFragment = ServerListFragment()
+        snapshotFragment = SnapshotFragment()
+        firewallFragment = FirewallFragment()
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -45,15 +53,11 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
     fun setBundle(api_key: String?) {
         bundle!!.putString("API-Key", api_key)
-
-        setAPIKeyFragment = SetAPIKeyFragment()
         setAPIKeyFragment!!.arguments = bundle
-        accountFragment = AccountFragment()
         accountFragment!!.arguments = bundle
-        serverListFragment = ServerListFragment()
         serverListFragment!!.arguments = bundle
-        snapshotFragment = SnapshotFragment()
         snapshotFragment!!.arguments = bundle
+        firewallFragment!!.arguments = bundle
     }
 
     fun checkAPIKeyFile(savedInstanceState: Bundle?) {
@@ -112,6 +116,7 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             R.id.account -> showAccountFragment()
             R.id.server -> showServerListFragment()
             R.id.snapshot -> showSnapshotFragment()
+            R.id.firewall -> showFirewallFragment()
         }
 
         val drawer = drawer_layout
@@ -119,30 +124,54 @@ class MainActivity() : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         return true
     }
 
-    fun showAccountFragment()
-    {
-        fragmentManager.beginTransaction()
-                .replace(content_frame.id, accountFragment)
-                .commit()
+    fun showFirewallFragment() {
+        if (firewallFragment!!.isAdded()) {
+            fragmentManager.beginTransaction().show(firewallFragment).commit()
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(content_frame.id, firewallFragment)
+                    .commit()
+        }
     }
 
-    fun showServerListFragment()
-    {
-        fragmentManager.beginTransaction()
-                .replace(content_frame.id, serverListFragment)
-                .commit()
+    fun showAccountFragment() {
+        if (accountFragment!!.isAdded()) {
+            fragmentManager.beginTransaction().show(accountFragment).commit()
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(content_frame.id, accountFragment)
+                    .commit()
+        }
+    }
+
+    fun showServerListFragment() {
+        if (serverListFragment!!.isAdded()) {
+            fragmentManager.beginTransaction().show(serverListFragment).commit()
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(content_frame.id, serverListFragment)
+                    .commit()
+        }
     }
 
     fun showSnapshotFragment() {
-        fragmentManager.beginTransaction()
-                .replace(content_frame.id, snapshotFragment)
-                .commit()
+        if (snapshotFragment!!.isAdded()) {
+            fragmentManager.beginTransaction().show(snapshotFragment).commit()
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(content_frame.id, snapshotFragment)
+                    .commit()
+        }
     }
 
     private fun showSettingsFragment() {
-        fragmentManager.beginTransaction()
-                .replace(content_frame.id, setAPIKeyFragment)
-                .addToBackStack(null)
-                .commit()
+        if (setAPIKeyFragment!!.isAdded()) {
+            fragmentManager.beginTransaction().show(setAPIKeyFragment).commit()
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(content_frame.id, setAPIKeyFragment)
+                    .addToBackStack(null)
+                    .commit()
+        }
     }
 }

@@ -1,9 +1,11 @@
-package com.ohmcoe.vultr
+package com.ohmcoe.vultr.model
 
+import android.support.annotation.Keep
 import org.json.JSONObject
 
+@Keep
+data class Server(var serverJOBJ: JSONObject) {
 
-class Server {
     var subid: String? = null
     var os: String? = null
     var ram: String? = null
@@ -14,20 +16,24 @@ class Server {
     var current_bandwidth_gb: String? = null
     var allowed_bandwidth_gb: String? = null
 
-    fun loadAttribute(jObj: JSONObject) {
-        this.subid = jObj.getString("SUBID")
-        this.os = jObj.getString("os")
-        this.ram = jObj.getString("ram")
-        this.main_ip = jObj.getString("main_ip")
-        this.label = jObj.getString("label")
-        this.server_state = jObj.getString("server_state")
-        this.pending_charges = jObj.getString("pending_charges")
-        this.current_bandwidth_gb = jObj.getString("current_bandwidth_gb")
-        this.allowed_bandwidth_gb = jObj.getString("allowed_bandwidth_gb")
+    init {
+        loadAttribute()
+    }
+
+   internal fun loadAttribute() {
+        this.subid = serverJOBJ.getString("SUBID")
+        this.os = serverJOBJ.getString("os")
+        this.ram = serverJOBJ.getString("ram")
+        this.main_ip = serverJOBJ.getString("main_ip")
+        this.label = serverJOBJ.getString("label")
+        this.server_state = serverJOBJ.getString("server_state")
+        this.pending_charges = serverJOBJ.getString("pending_charges")
+        this.current_bandwidth_gb = serverJOBJ.getString("current_bandwidth_gb")
+        this.allowed_bandwidth_gb = serverJOBJ.getString("allowed_bandwidth_gb")
     }
 
     val strPendingCharges: String
-        get() = "$" + pending_charges!!
+        get() = "$" + pending_charges
 
     val bandwidth: String
         get() {
