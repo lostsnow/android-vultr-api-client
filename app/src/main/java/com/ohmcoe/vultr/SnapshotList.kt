@@ -3,6 +3,7 @@ package com.ohmcoe.vultr
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.ohmcoe.vultr.model.Snapshot
 import org.json.JSONException
 import org.json.JSONObject
 

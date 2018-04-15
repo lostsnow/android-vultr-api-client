@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ohmcoe.vultr.model.Account
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,7 +47,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun refreshAccountUI(response: Response<Account>) {
-        account = response.body()!!
+        account = response.body()
         updateUIFromAccount()
         dismissDialog()
     }
@@ -54,8 +55,8 @@ class AccountFragment : Fragment() {
     private fun updateUIFromAccount() {
         val view = accountView
 
-        val currentBalance = account!!.balance!!.toDouble()
-        val pendingCharge = account!!.pendingCharges!!.toDouble()
+        val currentBalance = account!!.balance.toDouble()
+        val pendingCharge = account!!.pending_charges.toDouble()
         val remainBalance = currentBalance + pendingCharge
 
         val stringCurrentBalance = "$" + String.format("%02.2f", currentBalance * -1)
@@ -100,13 +101,15 @@ class AccountFragment : Fragment() {
 
             override fun onFailure(call: Call<Account>, t: Throwable) {
                 view.txtCurrentBalance.text = t.message
+                view.txtPendingCharges.text = t.message
+                view.txtRemainBalance.text = t.message
+                dismissDialog()
             }
         })
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-
         outState?.putParcelable("account", account)
     }
 }

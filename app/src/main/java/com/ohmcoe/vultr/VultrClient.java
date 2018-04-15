@@ -1,5 +1,8 @@
 package com.ohmcoe.vultr;
 
+import com.ohmcoe.vultr.model.Account;
+import com.ohmcoe.vultr.model.Bandwidth;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;

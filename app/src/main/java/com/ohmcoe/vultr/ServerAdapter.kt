@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import com.ohmcoe.vultr.model.Server
 import kotlinx.android.synthetic.main.server_list.view.*
 
 class ServerAdapter(context: Context, resource: Int, objects: List<Server>) : ArrayAdapter<Server>(context, resource, objects) {

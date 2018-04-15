@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
+import com.ohmcoe.vultr.model.Server
+import com.ohmcoe.vultr.model.ServerList
 import kotlinx.android.synthetic.main.fragment_server_list.view.*
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
@@ -34,7 +36,6 @@ class ServerListFragment : Fragment() {
         val bundle = arguments
         APIKey = bundle.getString("API-Key")
 
-        serverList = ServerList()
         txtServerList = serverListLayout.txtServerList
 
 

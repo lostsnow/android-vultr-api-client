@@ -1,6 +1,6 @@
 <resources>
     <!-- App -->
-    <string name="app_name">Vurlt API</string>
+    <string name="app_name">Vultr API</string>
     <string name="api_key">Enter API Key</string>
     <string name="base_uri">https://api.vultr.com/</string>
     <string name="ok">OK</string>
@@ -44,5 +44,7 @@
     <string name="title_activity_bandwidth_graph">BandwidthGraph</string>
     <string name="str_now_loading">Now Loading</string>
     <string name="str_loading">Wait while loading ...</string>
+    <string name="firewall">Firewall</string>
+    <string name="btnAddFirewallGroup">Add firewall group</string>
 
 </resources>

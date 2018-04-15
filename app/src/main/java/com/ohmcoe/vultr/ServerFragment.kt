@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ohmcoe.vultr.model.Bandwidth
+import com.ohmcoe.vultr.model.ServerList
 import kotlinx.android.synthetic.main.server_layout.view.*
 import okhttp3.ResponseBody
 import retrofit2.Call

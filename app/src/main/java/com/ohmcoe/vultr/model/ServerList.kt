@@ -1,5 +1,4 @@
-package com.ohmcoe.vultr
-
+package com.ohmcoe.vultr.model
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -7,7 +6,6 @@ import org.json.JSONException
 import org.json.JSONObject
 
 import java.util.ArrayList
-
 
 class ServerList() : Parcelable{
 
@@ -20,7 +18,6 @@ class ServerList() : Parcelable{
 
     fun toList(): List<Server>? {
         val list = serverLists
-
         return list
     }
 
@@ -37,8 +34,7 @@ class ServerList() : Parcelable{
 
                 val serverJObj = JSONObject(result)
 
-                val server = Server()
-                server.loadAttribute(serverJObj)
+                val server = Server(serverJObj)
 
                 serverLists!!.add(server)
             }
