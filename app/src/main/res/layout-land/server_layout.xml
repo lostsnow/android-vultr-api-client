@@ -130,6 +130,26 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/lblPowerStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/powerStatus" />
+
+                <TextView
+                    android:id="@+id/txtPowerStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="0dp"
+                    android:paddingStart="5dp"
+                    tools:text="unknown" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
                     android:id="@+id/lblPendingCharges"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -243,6 +263,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end">
+
+            <Button
+                android:id="@+id/btnStop"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btnStop"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnStart"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btnStart"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnReload"

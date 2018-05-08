@@ -11,6 +11,8 @@
     <string name="lblPendingCharges">Pending Charges</string>
     <string name="lblRemainBalance">Remaining Balance</string>
     <string name="btnReload">Reload</string>
+    <string name="btnStop">Stop</string>
+    <string name="btnStart">Start</string>
     <string name="loadError">Unable to load</string>
 
 
@@ -32,6 +34,7 @@
     <string name="ip">Server IP </string>
     <string name="ram">Ram </string>
     <string name="serverState">Server State</string>
+    <string name="powerStatus">Power Status</string>
     <string name="pendingCharges">Pending Charges</string>
     <string name="bandwidth">Monthly Bandwidth</string>
     <string name="showdetail">Show details</string>

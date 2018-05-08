@@ -37,6 +37,8 @@ class ServerFragment : Fragment() {
         SUBID = bundle.getString("SUBID")
 
 
+        serverView.btnStart.setOnClickListener { startServer() }
+        serverView.btnStop.setOnClickListener { stopServer() }
         serverView.btnReload.setOnClickListener { getData() }
         serverView.txtBandwidthHistory.setOnClickListener { showBandwidthGraph() }
         this.serverView = serverView
@@ -69,8 +71,17 @@ class ServerFragment : Fragment() {
                     view.txtLabel.text = server.label
                     view.txtOS.text = server.os
                     view.txtState.text = server.server_state
+                    view.txtPowerStatus.text = server.power_status
                     view.txtPendingCharges.text = server.strPendingCharges
                     view.txtBandwidth.text = server.bandwidth
+
+                    if (server.power_status.equals("stopped")) {
+                        view.btnStart.visibility = View.VISIBLE
+                        view.btnStop.visibility = View.GONE
+                    } else if (server.power_status.equals("running")) {
+                        view.btnStart.visibility = View.GONE
+                        view.btnStop.visibility = View.VISIBLE
+                    }
                 }
             }
         }
@@ -156,6 +167,94 @@ class ServerFragment : Fragment() {
                 myToast.show()
             }
         })
+    }
+
+    private fun startServer() {
+        myToast.setText("Starting server")
+        myToast.show()
+
+        showDialog()
+
+        val retrofitClient = RetrofitClient(getString(R.string.base_uri))
+        val retrofit = retrofitClient.retrofit
+
+        val client = retrofit.create(VultrClient::class.java)
+        val clientCall = client.startServer(APIKey, SUBID)
+
+        clientCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                try {
+                    if (response.code() != 200) {
+                        val text = "Server start failure response code " + response.code()
+                        myToast.setText(text)
+                        myToast.show()
+                    } else {
+                        myToast.setText("Server start success")
+                        myToast.show()
+
+                        serverView.txtPowerStatus.text = "running"
+                        serverView.btnStart.visibility = View.GONE
+                        serverView.btnStop.visibility = View.VISIBLE
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    dismissDialog()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                dismissDialog()
+                myToast.setText("Server start connection failure")
+                myToast.show()
+            }
+        })
+
+        getServerList()
+        getBandwidth()
+    }
+
+    private fun stopServer() {
+        myToast.setText("Stopping server")
+        myToast.show()
+
+        showDialog()
+
+        val retrofitClient = RetrofitClient(getString(R.string.base_uri))
+        val retrofit = retrofitClient.retrofit
+
+        val client = retrofit.create(VultrClient::class.java)
+        val clientCall = client.stopServer(APIKey, SUBID)
+
+        clientCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                try {
+                    if (response.code() != 200) {
+                        val text = "Server stop failure response code " + response.code()
+                        myToast.setText(text)
+                        myToast.show()
+                    } else {
+                        myToast.setText("Server stop success")
+                        myToast.show()
+
+                        serverView.txtPowerStatus.text = "stopped"
+                        serverView.btnStart.visibility = View.VISIBLE
+                        serverView.btnStop.visibility = View.GONE
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    dismissDialog()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                dismissDialog()
+                myToast.setText("Server stop connection failure")
+                myToast.show()
+            }
+        })
+
+        getServerList()
+        getBandwidth()
     }
 
     private fun getData() {

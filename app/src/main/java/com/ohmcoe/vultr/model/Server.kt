@@ -12,6 +12,7 @@ data class Server(var serverJOBJ: JSONObject) {
     var main_ip: String? = null
     var label: String? = null
     var server_state: String? = null
+    var power_status: String? = null
     var pending_charges: String? = null
     var current_bandwidth_gb: String? = null
     var allowed_bandwidth_gb: String? = null
@@ -27,6 +28,7 @@ data class Server(var serverJOBJ: JSONObject) {
         this.main_ip = serverJOBJ.getString("main_ip")
         this.label = serverJOBJ.getString("label")
         this.server_state = serverJOBJ.getString("server_state")
+        this.power_status = serverJOBJ.getString("power_status")
         this.pending_charges = serverJOBJ.getString("pending_charges")
         this.current_bandwidth_gb = serverJOBJ.getString("current_bandwidth_gb")
         this.allowed_bandwidth_gb = serverJOBJ.getString("allowed_bandwidth_gb")
